@@ -3,7 +3,7 @@
   "version": "8.3.4",
   "description": "React.js Google Maps integration component",
   "main": "lib/index.js",
-  "files": ["lib/", "src/", "CHANGELOG.md"],
+  "files": ["lib/", "src/lib", "CHANGELOG.md", "index.d.ts"],
   "lint-staged": {
     "*.{js,jsx,json,css}": ["prettier --write", "git add"]
   },
@@ -16,11 +16,12 @@
     "test:once": "cross-env CI=true npm test",
     "clean": "rimraf lib",
     "lint": "cross-env NODE_ENV=test eslint .",
+    "dtslint": "dtslint types",
     "build:src": "babel-node src/tx/jscodeshift",
     "precommit:src": "npm run build:src",
     "commit:src":
       "git add -A && git commit -m 'chore(src/components): compile from src/macros with `babel`'",
-    "prebuild:lib": "npm run lint && npm run clean",
+    "prebuild:lib": "npm run lint && npm run dtslint && npm run clean",
     "build:lib":
       "cross-env NODE_ENV=production babel src --out-dir lib --ignore macros,tx,spec.js",
     "precommit:lib": "npm run build:lib",
@@ -75,7 +76,11 @@
     "url": "https://github.com/tomchentw/react-google-maps/issues"
   },
   "homepage": "https://tomchentw.github.io/react-google-maps/",
+  "types": "types",
   "devDependencies": {
+    "@types/googlemaps": "^3.26.20",
+    "@types/markerclustererplus": "^2.1.29",
+    "@types/react": "^15.6.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.0",
@@ -89,6 +94,7 @@
     "cheerio": "^1.0.0-rc.2",
     "codeclimate-test-reporter": "^0.5.0",
     "cross-env": "^5.0.5",
+    "dtslint": "github:Microsoft/dtslint#production",
     "eslint": "^4.6.1",
     "eslint-config-prettier": "^2.4.0",
     "eslint-plugin-prettier": "^2.2.0",
@@ -121,6 +127,9 @@
     "warning": "^3.0.0"
   },
   "peerDependencies": {
+    "@types/googlemaps": "^3.0.0",
+    "@types/markerclustererplus": "^2.1.29",
+    "@types/react": "^15.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0"
   }
